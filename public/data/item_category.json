@@ -1,0 +1,51 @@
+[
+    {
+        "category_id": "1",
+        "created_at": "asjdfk",
+        "updated_at": "sjdkfd",
+        "category_name": "Taco Stall",
+        "category_img": "Taco_FoodTruck.jpg",
+        "category_type": "Food Truck"
+    },
+    {
+        "category_id": "2",
+        "created_at": "asjdfk",
+        "updated_at": "sjdkfd",
+        "category_name": "Coffee and Others",
+        "category_img": "Coffee_foodtruck.webp",
+        "category_type": "Food Truck"
+    },
+    {
+        "category_id": "3",
+        "created_at": "asjdfk",
+        "updated_at": "sjdkfd",
+        "category_name": "Tau Fu Fa",
+        "category_img": "Tau_Fu_Fa.jpg",
+        "category_type": "Food Truck"
+    },    
+    {
+        "category_id": "4",
+        "created_at": "asjdfk",
+        "updated_at": "sjdkfd",
+        "category_name": "Elijah Food Truck",
+        "category_img": "Elijah_FoodTruck.jpeg",
+        "category_type": "Food Truck"
+    },
+    {
+        "category_id": "sdjfwskfhjsdf",
+        "created_at": "asjdfk",
+        "updated_at": "sjdkfd",
+        "category_name": "lorem ipsum",
+        "category_img": "",
+        "category_type": "Stall"
+    },
+    {
+        "category_id": "sdjfksdjfklsdkfsdf",
+        "created_at": "asjdfk",
+        "updated_at": "sjdkfd",
+        "category_name": "Cafe",
+        "category_img": "",
+        "category_type": "Cafe"
+    }
+
+]

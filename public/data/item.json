@@ -1,0 +1,132 @@
+[
+    {
+        "item_id": "1",
+        "item_name": "Chicken Taco",
+        "item_description": "Delicious Chicken Taco with a choice of spicy salsa.",
+        "item_price": 5.99,
+        "item_status": "Valid",
+        "category_id": "1"
+    },
+    {
+        "item_id": "2",
+        "item_name": "Beef Taco",
+        "item_description": "Savory Beef Taco topped with fresh guacamole.",
+        "item_price": 5.99,
+        "item_status": "Valid",
+        "category_id": "1"
+
+    },
+    {
+        "item_id": "3",
+        "item_name": "Lamb Gyro",
+        "item_description": "Juicy Lamb wrapped in pita with tzatziki sauce.",
+        "item_price": 5.99,
+        "item_status": "Valid",
+        "category_id": "1"
+    },
+    {
+        "item_id": "4",
+        "item_name": "Fish Burrito",
+        "item_description": "Crispy Fish burrito loaded with fresh veggies.",  
+        "item_price": 6.49,
+        "item_status": "Valid",
+        "category_id": "1"
+    },
+    {
+        "item_id": "5",
+        "item_name": "Espresso",
+        "item_description": "Rich and bold espresso shot.",
+        "item_price": 3.99,
+        "item_status": "Valid",
+        "category_id": "2"
+    },
+    {
+        "item_id": "6",
+        "item_name": "Iced Latte",
+        "item_description": "Chilled latte made with fresh milk and espresso.", 
+        "item_price": 4.99,
+        "item_status": "Valid",
+        "category_id": "2"
+    },
+    {
+        "item_id": "7",
+        "item_name": "Blueberry Muffin",
+        "item_description": "Freshly baked muffin with blueberries.",
+        "item_price": 2.99,
+        "item_status": "Valid",
+        "category_id": "2"
+    },
+    {
+        "item_id": "8",
+        "item_name": "Croissant",
+        "item_description": "Buttery and flaky croissant, perfect with coffee.",
+        "item_price": 2.49,
+        "item_status": "Valid",
+        "category_id": "2"
+    },
+    {
+        "item_id": "9",
+        "item_name": "Tau Fu Fa",
+        "item_description": "Silky smooth tofu pudding served with syrup.",
+        "item_price": 4.50,
+        "item_status": "Valid",
+        "category_id": "3"
+    },
+    {
+        "item_id": "10",
+        "item_name": "Red Bean Soup",
+        "item_description": "Sweet red bean soup with a hint of coconut.",
+        "item_price": 3.99,
+        "item_status": "Valid",
+        "category_id": "3"
+    },
+    {
+        "item_id": "11",
+        "item_name": "Mango Pudding",
+        "item_description": "Refreshing mango pudding topped with cream.",
+        "item_price": 4.00,
+        "item_status": "Valid",
+        "category_id": "3"
+    },
+    {
+        "item_id": "12",
+        "item_name": "Soy Milk",
+        "item_description": "Freshly made Soy Milk Everyday for the past 10 years .",
+        "item_price": 2.00,
+        "item_status": "Valid",
+        "category_id": "3"
+    },
+    {
+        "item_id": "13",
+        "item_name": "Lucas Special",
+        "item_description": "Deliciously fluffy waffles topped with fresh fruits and a drizzle of maple syrup.",
+        "item_price": 5.99,
+        "item_status": "Valid",
+        "category_id": "4"
+    },
+    {
+        "item_id": "14",
+        "item_name": "Xuan Wei Delight",
+        "item_description": "Decadent chocolate dessert featuring rich layers of chocolate cake and creamy frosting.",
+        "item_price": 6.99,
+        "item_status": "Valid",
+        "category_id": "4"
+    },
+    {
+        "item_id": "15",
+        "item_name": "Elijah Secret",
+        "item_description": "Traditional Malaysian pancake filled with sweet corn and crushed peanuts, served warm.",
+        "item_price": 7.49,
+        "item_status": "Valid",
+        "category_id": "4"
+    },
+    {
+        "item_id": "16",
+        "item_name": "Everyday Happiness",
+        "item_description": "We will choose the food for you, so just lay back and wait for your surprise !",
+        "item_price": 8.49,
+        "item_status": "Valid",
+        "category_id": "4"
+    }
+]
+
