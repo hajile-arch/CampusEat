@@ -50,14 +50,17 @@ const App: React.FC = () => {
   //   };
   //   fetchLoungeItems();
   // }, []);
-
+  const hideCartOnRoutes = ["/login", "/", "/forgot-password","/checkout"];
   return (
     <div>
       {loading && location.pathname !== '/login' && location.pathname !== '/signup' ? (
         <Preloader />
       ) : (
         <Router>
-          <ShoppingCart cartItems={cartItems} setCartItems={setCartItems} />
+          {/* Render ShoppingCart only if current route is not in hideCartOnRoutes */}
+          {!hideCartOnRoutes.includes(location.pathname) && (
+            <ShoppingCart cartItems={cartItems} setCartItems={setCartItems} />
+          )}
           <animated.div id="content" className="block" style={fadeInProps}>
             <Routes>
               <Route path="/" element={<Signup />} />
