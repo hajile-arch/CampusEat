@@ -22,7 +22,7 @@ export interface ItemType {
   item_name: string;
   item_description: string;
   item_price: number;
-  category_id: ItemCategoryType
+  category_id: ItemCategoryType;
 }
 
 export interface ItemCategoryType {
@@ -36,12 +36,13 @@ export interface ItemCategoryType {
 export interface OrderType {
   order_id: string;
   created_at: string;
+  item_id: ItemType;
   unit: number;
   total_price: number;
-
-  item_id: ItemType;
-  customer_id: UserType;
-  delivery_id: UserType;
+  from_user_id: UserType;
+  to_user_id: UserType;
+  location: string;
+  status: string;
 }
 
 export interface FormType {
@@ -57,8 +58,6 @@ export interface CandidateKeyType {
   email: string;
   phone_number: string;
 }
-
-
 
 export interface FoodTruckType {
   category_id: string;
