@@ -63,13 +63,13 @@ const Checkout = () => {
       .padStart(2, "0")}`;
   };
 
-  if (countDown > 0) {
-    useEffect(() => {
-      void (async () => {
-        const order = await getOrder("*", "order_id");
-      })();
-    }, []);
-  }
+  // if (countDown > 0) {
+  //   useEffect(() => {
+  //     void (async () => {
+  //       const order = await getOrder("*", "order_id");
+  //     })();
+  //   }, []);
+  // }
 
   // const handleFeedbackSubmit = () => {
   //   console.log("Feedback Submitted:", feedback);

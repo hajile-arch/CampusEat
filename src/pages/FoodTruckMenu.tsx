@@ -55,7 +55,6 @@ const FoodTruckMenu: React.FC<FoodTruckMenuProps> = ({
     } else {
       setCartItems([...cartItems, { item, quantity: 1 }]);
     }
-    alert(`Added ${item.item_name} to order!`);
   };
 
   return (
