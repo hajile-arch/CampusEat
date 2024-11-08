@@ -2,7 +2,8 @@ import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { ItemType } from "../types";
 // import { FaQrcode } from "react-icons/fa";
-import { createOrder } from "../api/order";
+import { createOrder, getOrder } from "../api/order";
+import supabase from "../utils/supabase";
 
 interface CartItem {
   item: ItemType;
@@ -29,16 +30,16 @@ const Checkout = () => {
     setIsButtonDisabled(true);
     setCountDown(5);
 
-    for (const cartItem of cartItems) {
-      const order_id = await createOrder(
-        cartItem.item.item_id,
-        cartItem.quantity,
-        cartItem.item.item_price * cartItem.quantity,
-        "B1234567",
-        location
-      );
-      console.log(order_id);
-    }
+    // for (const cartItem of cartItems) {
+    //   const order_id = await createOrder(
+    //     cartItem.item.item_id,
+    //     cartItem.quantity,
+    //     cartItem.item.item_price * cartItem.quantity,
+    //     "B1234567",
+    //     location
+    //   );
+    //   console.log(order_id);
+    // }
   };
 
   useEffect(() => {
@@ -52,7 +53,7 @@ const Checkout = () => {
     } else {
       setIsButtonDisabled(false);
     }
-  }, [countDown]);
+  }, [countDown, location]);
 
   const formatCountdown = () => {
     const minutes = Math.floor(countDown / 60);
@@ -61,6 +62,14 @@ const Checkout = () => {
       .toString()
       .padStart(2, "0")}`;
   };
+
+  if (countDown > 0) {
+    useEffect(() => {
+      void (async () => {
+        const order = await getOrder("*", "order_id");
+      })();
+    }, []);
+  }
 
   // const handleFeedbackSubmit = () => {
   //   console.log("Feedback Submitted:", feedback);

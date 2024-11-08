@@ -15,7 +15,7 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@splinetool/react-spline": "^4.0.0",
     "@stripe/react-stripe-js": "^2.8.1",
-    "@stripe/stripe-js": "^4.9.0",
+    "@stripe/stripe-js": "^4s.9.0",
     "@supabase/supabase-js": "^2.45.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",

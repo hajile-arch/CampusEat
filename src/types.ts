@@ -36,13 +36,18 @@ export interface ItemCategoryType {
 export interface OrderType {
   order_id: string;
   created_at: string;
-  item_id: ItemType;
-  unit: number;
-  total_price: number;
   from_user_id: UserType;
   to_user_id: UserType;
   location: string;
   status: string;
+}
+
+export interface OrderedItemType {
+  order_id: string;
+  item_id: string;
+  created_at: string;
+  unit: number;
+  total_price: number;
 }
 
 export interface FormType {
