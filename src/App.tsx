@@ -57,7 +57,11 @@ const App: React.FC = () => {
   //   };
   //   fetchLoungeItems();
   // }, []);
+<<<<<<< HEAD
+  const hideCartOnRoutes = ["/login", "/", "/forgot-password","/checkout"];
+=======
   const hideCartOnRoutes = ["/login", "/", "/forgot-password", "/checkout"];
+>>>>>>> 0d76db19e08ce49a3e7b8be889b109327ec76a12
   return (
     <div>
       {loading &&
