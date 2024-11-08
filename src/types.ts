@@ -69,12 +69,9 @@ export interface FoodTruckType {
   category_name: string;
   category_img: string;
 }
-<<<<<<< HEAD
 
 export interface StallType {
   category_id: string;
   category_name: string;
   category_img: string;
 }
-=======
->>>>>>> 0d76db19e08ce49a3e7b8be889b109327ec76a12
