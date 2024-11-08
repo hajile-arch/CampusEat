@@ -22,7 +22,7 @@ export interface ItemType {
   item_name: string;
   item_description: string;
   item_price: number;
-  category_id: ItemCategoryType
+  category_id: ItemCategoryType;
 }
 
 export interface ItemCategoryType {
@@ -36,12 +36,18 @@ export interface ItemCategoryType {
 export interface OrderType {
   order_id: string;
   created_at: string;
+  from_user_id: UserType;
+  to_user_id: UserType;
+  location: string;
+  status: string;
+}
+
+export interface OrderedItemType {
+  order_id: string;
+  item_id: string;
+  created_at: string;
   unit: number;
   total_price: number;
-
-  item_id: ItemType;
-  customer_id: UserType;
-  delivery_id: UserType;
 }
 
 export interface FormType {
@@ -58,16 +64,17 @@ export interface CandidateKeyType {
   phone_number: string;
 }
 
-
-
 export interface FoodTruckType {
   category_id: string;
   category_name: string;
   category_img: string;
 }
+<<<<<<< HEAD
 
 export interface StallType {
   category_id: string;
   category_name: string;
   category_img: string;
 }
+=======
+>>>>>>> 0d76db19e08ce49a3e7b8be889b109327ec76a12

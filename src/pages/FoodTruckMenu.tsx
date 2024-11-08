@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
+<<<<<<< HEAD
 // import { FaShoppingCart, FaTimes } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
+=======
+import { useParams } from "react-router-dom";
+>>>>>>> 0d76db19e08ce49a3e7b8be889b109327ec76a12
 import { ItemType } from "../types";
 import { readItem } from "../api/item";
 import ShoppingCart from "../Components/ShoppingCart";

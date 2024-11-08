@@ -1,30 +1,39 @@
 // RedBrickArea.tsx
-import { useEffect, useState } from 'react';
-import FoodTruck from '../Components/FoodTruck/FoodTruck';
-import { readItemCategory } from '../api/item_category';
+import { useEffect, useState } from "react";
+import FoodTruck from "../Components/FoodTruck/FoodTruck";
+import { readItemCategory } from "../api/item_category";
 import type { FoodTruckType, ItemType } from "../types";
-import { Navigate } from 'react-router-dom';
-import ShoppingCart from '../Components/ShoppingCart';
+import { Navigate } from "react-router-dom";
+import ShoppingCart from "../Components/ShoppingCart";
 
 interface RedBrickAreaProps {
   cartItems: { item: ItemType; quantity: number }[];
-  setCartItems: React.Dispatch<React.SetStateAction<{ item: ItemType; quantity: number }[]>>;
+  setCartItems: React.Dispatch<
+    React.SetStateAction<{ item: ItemType; quantity: number }[]>
+  >;
 }
 
-const RedBrickArea: React.FC<RedBrickAreaProps> = ({ cartItems, setCartItems }) => {
-  const [itemCategory, setItemCategory] = useState<FoodTruckType[]>([])
+const RedBrickArea: React.FC<RedBrickAreaProps> = ({
+  cartItems,
+  setCartItems,
+}) => {
+  const [itemCategory, setItemCategory] = useState<FoodTruckType[]>([]);
 
   useEffect(() => {
     void (async () => {
-      const items = await readItemCategory("category_id, category_name", "category_type", "Food Truck") as FoodTruckType[] | undefined
+      const items = (await readItemCategory(
+        "category_id, category_name",
+        "category_type",
+        "Food Truck"
+      )) as FoodTruckType[] | undefined;
       if (items) {
-        setItemCategory(items)
+        setItemCategory(items);
       } else {
-        console.log("error: there's no item category")
+        console.log("error: there's no item category");
       }
     })();
-  }, [])
-  
+  }, []);
+
   const [goBack, setGoBack] = useState(false);
 
   const handleBackClick = () => {
@@ -37,7 +46,10 @@ const RedBrickArea: React.FC<RedBrickAreaProps> = ({ cartItems, setCartItems }) 
 
   return (
     <div className="h-screen w-full bg-white overflow-auto relative">
-      <button onClick={handleBackClick} className="absolute top-4 left-4 p-2 bg-transparent">
+      <button
+        onClick={handleBackClick}
+        className="absolute top-4 left-4 p-2 bg-transparent"
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className="h-8 w-8 text-blue-500"
@@ -61,8 +73,8 @@ const RedBrickArea: React.FC<RedBrickAreaProps> = ({ cartItems, setCartItems }) 
 
       <div className="mt-8 space-y-1">
         {itemCategory.map((truck) => (
-          <FoodTruck 
-            key={truck.category_id} 
+          <FoodTruck
+            key={truck.category_id}
             category_name={truck.category_name}
           />
         ))}

@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { useSpring, animated } from "react-spring"; // Import animated for applying animation
 import Preloader from "./pages/Prelaoder";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import ForgotPassword from './pages/ForgotPassword'; 
+import ForgotPassword from "./pages/ForgotPassword";
 import FoodPlace from "./pages/FoodPlace";
 import CheckOrders from "./pages/CheckOrders";
 import Home from "./pages/Homepage";
@@ -13,14 +18,16 @@ import BlockHCafe from "./pages/BlockHCafe";
 // import StudentLounge from "./pages/StudentLounge";
 import Haha from "./pages/haha";
 import Checkout from "./pages/Checkout";
-import { ItemType } from './types';
-import ShoppingCart from '../src/Components/ShoppingCart'; // Import your ShoppingCart component
+import { ItemType } from "./types";
+import ShoppingCart from "../src/Components/ShoppingCart"; // Import your ShoppingCart component
 import FoodTruckMenu from "./pages/FoodTruckMenu";
-import StallMenu from "./pages/StallMenu";
+// import StallMenu from "./pages/StallMenu";
 
 const App: React.FC = () => {
   const [loading, setLoading] = useState(true); // State to control preloader visibility
-  const [cartItems, setCartItems] = useState<{ item: ItemType; quantity: number }[]>([]);
+  const [cartItems, setCartItems] = useState<
+    { item: ItemType; quantity: number }[]
+  >([]);
   // const [loungeItems, setLoungeItems] = useState<LoungeItemType[]>([]); // State for lounge items
   // Spring animation for fade-in effect
   const fadeInProps = useSpring({
@@ -50,10 +57,16 @@ const App: React.FC = () => {
   //   };
   //   fetchLoungeItems();
   // }, []);
+<<<<<<< HEAD
   const hideCartOnRoutes = ["/login", "/", "/forgot-password","/checkout"];
+=======
+  const hideCartOnRoutes = ["/login", "/", "/forgot-password", "/checkout"];
+>>>>>>> 0d76db19e08ce49a3e7b8be889b109327ec76a12
   return (
     <div>
-      {loading && location.pathname !== '/login' && location.pathname !== '/signup' ? (
+      {loading &&
+      location.pathname !== "/login" &&
+      location.pathname !== "/signup" ? (
         <Preloader />
       ) : (
         <Router>
@@ -69,9 +82,33 @@ const App: React.FC = () => {
               <Route path="/home" element={<Home />} />
               <Route path="/check-orders" element={<CheckOrders />} />
               <Route path="/checkout" element={<Checkout />} />
-              <Route path="/foodplace" element={<FoodPlace cartItems={cartItems} setCartItems={setCartItems} />} />
-              <Route path="/red-brick-area" element={<RedBrickArea cartItems={cartItems} setCartItems={setCartItems} />} />
-              <Route path="/red-brick-area/:food_truck" element={<FoodTruckMenu cartItems={cartItems} setCartItems={setCartItems} />} />
+              <Route
+                path="/foodplace"
+                element={
+                  <FoodPlace
+                    cartItems={cartItems}
+                    setCartItems={setCartItems}
+                  />
+                }
+              />
+              <Route
+                path="/red-brick-area"
+                element={
+                  <RedBrickArea
+                    cartItems={cartItems}
+                    setCartItems={setCartItems}
+                  />
+                }
+              />
+              <Route
+                path="/red-brick-area/:food_truck"
+                element={
+                  <FoodTruckMenu
+                    cartItems={cartItems}
+                    setCartItems={setCartItems}
+                  />
+                }
+              />
               <Route path="/block-h-cafe" element={<BlockHCafe />} />
               {/* <Route path="/student-lounge" element={<StudentLounge  />} /> */}
               {/* <Route path="/student-lounge/:stall" element={<StallMenu loungeItems={loungeItems} cartItems={cartItems} setCartItems={setCartItems} />} /> */}
