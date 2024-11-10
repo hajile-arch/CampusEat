@@ -17,7 +17,7 @@ const ItemList: React.FC<ItemListProps> = ({
     <div className="flex py-1 text-neutral-500">
       <div className="w-10/12">{left}</div>
       <div className={`${total && "pt-3"} w-2/12 text-center`}>{middle}</div>
-      <div className={`${total && "border-t pt-3"} w-2/12 text-center `}>
+      <div className={`${total && "border-t pt-3"} w-2/12 text-right`}>
         {right}
       </div>
     </div>

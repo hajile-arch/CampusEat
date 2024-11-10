@@ -36,8 +36,8 @@ export interface ItemCategoryType {
 export interface OrderType {
   order_id: string;
   created_at: string;
-  from_user_id: UserType;
-  to_user_id: UserType;
+  from_user_id: string;
+  to_user_id: string;
   location: string;
   status: string;
 }

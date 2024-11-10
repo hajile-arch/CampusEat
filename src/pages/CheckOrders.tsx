@@ -1,20 +1,31 @@
-import React from "react";
-import Spline from '@splinetool/react-spline';
+import { useEffect, useState } from "react";
+import { readOrder } from "../api/order";
+import { OrderType } from "../types";
 
-const CheckOrders: React.FC = () => {
-  return (
-    <div className="relative flex justify-center items-center h-screen bg-gray-100">
-      {/* Background Animation */}
-      <div className="absolute inset-0 z-0">
-      <Spline scene="https://prod.spline.design/D0zhXvbd42xnew7J/scene.splinecode" />
-      </div>
-      
-      Robot that follows the cursor
-      <div className="relative  z-10">
-        <Spline scene="https://prod.spline.design/snQWH3sGfetfa9qO/scene.splinecode" />
-      </div>
-    </div>
-  );
+const CheckOrders = () => {
+  const [myOrders, setMyOrders] = useState<OrderType[]>([]);
+  const [otherOrders, setOtherOrders] = useState<OrderType[]>([]);
+
+  useEffect(() => {
+    void (async () => {
+      readOrder("*").then(async (orders: OrderType[]) => {
+        const myOrderLists = orders?.filter((order) => {
+          return order.from_user_id.toString() === "B1234567";
+        });
+        setMyOrders(myOrderLists);
+        const otherOrderLists = orders?.filter((order) => {
+          return order.from_user_id.toString() !== "B1234567";
+        });
+        setOtherOrders(otherOrderLists);
+      });
+    })();
+  });
+  // const name1 = "Harry Liow";
+  // const studentId1 = "B1234567";
+
+  // const name2 = "Elijah Wong"
+  // const studentId2 = "B2201651"
+
+  return null;
 };
-
 export default CheckOrders;

@@ -1,9 +1,10 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ItemType } from "../types";
 import { useEffect, useState } from "react";
 import ItemList from "../Components/Checkout/ItemList";
 import { createOrder, deleteOrder, readOrder } from "../api/order";
 import { createOrderedItem, deleteOrderedItem } from "../api/ordered_item";
+import PendingOrder from "../Components/Checkout/PendingOrder";
 
 interface CartItem {
   item: ItemType;
@@ -16,12 +17,12 @@ const Checkout = () => {
     cartItems: CartItem[];
     total: number;
   };
+  const navigate = useNavigate();
 
   const [disabled, setDisabled] = useState(true);
   const [inputValue, setInputValue] = useState("");
   const [seconds, setSeconds] = useState(0);
   const [orderId, setOrderId] = useState("");
-  const [delivering, setDelivering] = useState(false);
 
   useEffect(() => {
     if (inputValue.trim() !== "") {
@@ -38,42 +39,35 @@ const Checkout = () => {
 
     const interval = setInterval(() => {
       setSeconds((prev) => prev - 1);
-    }, 10);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [seconds]);
 
-  const formatTime = (seconds: number) => {
-    const min = Math.floor(seconds / 60);
-    const sec = seconds % 60;
-    let formattedSec;
-    if (sec >= 10) {
-      formattedSec = `:${sec}`;
-    } else if (sec > 0 && sec < 10) {
-      formattedSec = `:0${sec}`;
-    } else {
-      formattedSec = "";
-    }
-    return `${min}${formattedSec}`;
-  };
-
   useEffect(() => {
-    void (async () => {
-      const status = (
-        await readOrder("status", "order_id", orderId)
-      )?.toString();
-
-      if (status === "Delivering") {
-        setDelivering(true);
-      } else {
-        if (seconds === 0 && orderId !== "") {
-          await deleteOrderedItem("order_id", orderId).then(async () => {
-            await deleteOrder("order_id", orderId);
-          });
+    const handleRequestStatus = async () => {
+      if (orderId && orderId !== "") {
+        const data = (await readOrder("status", "order_id", orderId)) as
+          | [{ status: string }]
+          | [];
+        if (data && data[0]?.status !== "Pending") {
+          navigate("/check-orders");
         }
       }
-    })();
-  }, [seconds, orderId, delivering]);
+    };
+    handleRequestStatus();
+  }, [seconds, orderId, navigate]);
+
+  useEffect(() => {
+    const handleCountdownComplete = async () => {
+      if (seconds === 0 && orderId !== "") {
+        await deleteOrderedItem("order_id", orderId).then(async () => {
+          await deleteOrder("order_id", orderId);
+        });
+      }
+    };
+    handleCountdownComplete();
+  }, [seconds, orderId]);
 
   const handleCreateOrder = async () => {
     await createOrder("B1234567", inputValue).then(async (order_id) => {
@@ -87,6 +81,12 @@ const Checkout = () => {
         );
       }
     });
+  };
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
   return (
@@ -104,46 +104,18 @@ const Checkout = () => {
             />
           );
         })}
-        <ItemList middle="Total" right={`RM ${total}`} total />
+        <ItemList right={`${total}`} total />
+        <ItemList left="Service Fee *" right={"2.00"} />
+        <ItemList middle="Total" right={`RM ${total + 2}`} total />
       </div>
-
-      <div className="flex flex-col gap-2 border-2 rounded-md w-1/2 p-7">
-        <div className="flex gap-4">
-          <div className="flex flex-col gap-2 w-full">
-            <label className="text-neutral-500">
-              Where do you want it to be delivered to?
-            </label>
-            <input
-              className="border-2 rounded-md h-10 ps-3"
-              type="text"
-              placeholder="Location"
-              disabled={seconds > 0 || disabled}
-              onChange={(e) => setInputValue(e.target.value)}
-            />
-          </div>
-          <div className="flex items-end">
-            <button
-              className={`${
-                seconds > 0 || disabled
-                  ? "bg-blue-200"
-                  : "bg-blue-600 hover:bg-blue-700"
-              } rounded-md text-white px-3 h-10 transition-colors duration-500`}
-              disabled={seconds > 0 || disabled}
-              onClick={async () => {
-                setSeconds(5 * 60);
-                handleCreateOrder();
-              }}
-            >
-              Confirm
-            </button>
-          </div>
-        </div>
-        {seconds > 0 && (
-          <p className="text-sm text-red-500">
-            You may request again after {formatTime(seconds)} minutes
-          </p>
-        )}
-      </div>
+      <PendingOrder
+        seconds={seconds}
+        setInputValue={setInputValue}
+        disabled={disabled}
+        setSeconds={setSeconds}
+        handleCreateOrder={handleCreateOrder}
+        formatTime={formatTime}
+      />
     </div>
   );
 };
