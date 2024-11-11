@@ -61,9 +61,9 @@ const MyOrders = () => {
             Pending Orders
           </h3>
           <div className="space-y-6">
-            {pendingOrders.map((order) => (
+            {pendingOrders.map((order, key) => (
               <div
-                key={order.id}
+                key={key}
                 className="bg-white shadow-lg rounded-lg p-6 border border-gray-200 hover:shadow-xl transition-all"
               >
                 <h3 className="text-lg font-semibold text-gray-800 mb-2">

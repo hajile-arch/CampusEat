@@ -5,7 +5,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import supabase from "../utils/supabase";
 import { readProfile } from "../services/profile";
 
-const Login: React.FC = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);

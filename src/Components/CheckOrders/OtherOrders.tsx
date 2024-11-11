@@ -41,9 +41,9 @@ const OtherOrders = () => {
           Other Orders
         </h2>
         <div className="space-y-6">
-          {orders.map((order) => (
+          {orders.map((order, key) => (
             <div
-              key={order.id}
+              key={key}
               className="bg-white shadow-lg rounded-lg p-6 border border-gray-200 hover:shadow-xl transition-all"
             >
               <h3 className="text-lg font-semibold text-gray-800 mb-2">
@@ -75,11 +75,11 @@ const OtherOrders = () => {
                 </ul>
               </div>
 
-              <p className="mt-3 text-sm text-gray-600">
-                <strong>Location:</strong> {order.location}
-              </p>
+              <div className="mt-3 flex justify-between items-center">
+                <p className="text-sm text-gray-600">
+                  <strong>Location:</strong> {order.location}
+                </p>
 
-              <div className="mt-4 flex justify-end">
                 <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-md transition duration-300 ease-in-out">
                   Accept
                 </button>

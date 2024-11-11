@@ -18,7 +18,7 @@ const PendingOrder: React.FC<PendingOrderProps> = ({
   formatTime,
 }) => {
   return (
-    <div className="flex flex-col gap-2 border-2 rounded-md w-1/2 p-7">
+    <div className="flex flex-col bg-white gap-2 border-2 rounded-md w-3/4 p-7">
       <div className="flex gap-4">
         <div className="flex flex-col gap-2 w-full">
           <label className="text-neutral-500">

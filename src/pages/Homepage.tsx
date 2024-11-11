@@ -4,7 +4,6 @@ import Scrollbar from "../Components/Homepage/Scrollbar";
 import { getUserSession } from "../services/get_session";
 import { readProfile } from "../services/profile";
 import { ProfileType } from "../types";
-import supabase from "../utils/supabase";
 
 const name: string = "Lucas Goh Yuan Kai";
 
@@ -22,7 +21,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    console.log(profile?.name);
+    // console.log(profile?.name);
   }, [profile]);
 
   return (

@@ -5,6 +5,7 @@ import ItemList from "../Components/Checkout/ItemList";
 import { createOrder, deleteOrder, readOrder } from "../services/order";
 import { createOrderedItem, deleteOrderedItem } from "../services/ordered_item";
 import PendingOrder from "../Components/Checkout/PendingOrder";
+import QRCode from "react-qr-code"; // Import the QRCode component
 
 interface CartItem {
   item: ItemType;
@@ -89,33 +90,48 @@ const Checkout = () => {
     return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
   };
 
+  // Create payment URL or details for QR Code
+  const paymentUrl = `https://your-payment-gateway.com/pay?amount=${
+    total + 2
+  }&orderId=${orderId}`;
+
   return (
-    <div className="flex flex-col justify-center items-center h-dvh gap-4">
-      <div className="flex flex-col gap-2 w-1/2 border-2 rounded-md p-7">
-        <h1 className="text-2xl font-bold py-2">Checkout Summary</h1>
-        <ItemList middle="Quantity" right="Subtotal" />
-        {cartItems.map((cartItem, key) => {
-          return (
-            <ItemList
-              key={key}
-              left={cartItem.item.item_name}
-              middle={cartItem.quantity.toString()}
-              right={`${cartItem.item.item_price * cartItem.quantity}`}
-            />
-          );
-        })}
-        <ItemList right={`${total}`} total />
-        <ItemList left="Service Fee *" right={"2.00"} />
-        <ItemList middle="Total" right={`RM ${total + 2}`} total />
+    <div className="flex h-dvh">
+      <div className="w-1/2 bg-neutral-100 flex flex-col justify-center items-center gap-4">
+        <div className="flex flex-col bg-white gap-2 w-3/4 border-2 rounded-md p-7">
+          <h1 className="text-2xl font-bold py-2">Checkout Summary</h1>
+          <ItemList middle="Quantity" right="Subtotal" />
+          {cartItems.map((cartItem, key) => {
+            return (
+              <ItemList
+                key={key}
+                left={cartItem.item.item_name}
+                middle={cartItem.quantity.toString()}
+                right={`${cartItem.item.item_price * cartItem.quantity}`}
+              />
+            );
+          })}
+          <ItemList right={`${total}`} total />
+          <ItemList left="Service Fee *" right={"2.00"} />
+          <ItemList middle="Total" right={`RM ${total + 2}`} total />
+        </div>
+        <PendingOrder
+          seconds={seconds}
+          setInputValue={setInputValue}
+          disabled={disabled}
+          setSeconds={setSeconds}
+          handleCreateOrder={handleCreateOrder}
+          formatTime={formatTime}
+        />
       </div>
-      <PendingOrder
-        seconds={seconds}
-        setInputValue={setInputValue}
-        disabled={disabled}
-        setSeconds={setSeconds}
-        handleCreateOrder={handleCreateOrder}
-        formatTime={formatTime}
-      />
+
+      <div className="border-2 bg-white w-1/2 flex flex-col text-center justify-center items-center">
+        <h2 className="text-xl font-semibold mb-4">Scan to Pay</h2>
+        <QRCode value={paymentUrl} size={256} />
+        <p className="mt-4 text-sm text-gray-500">
+          Scan the QR code to complete your payment.
+        </p>
+      </div>
     </div>
   );
 };

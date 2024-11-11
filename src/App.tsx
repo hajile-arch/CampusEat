@@ -69,6 +69,8 @@ const App: React.FC = () => {
     "/forgot-password",
     "/checkout",
     "/check-orders",
+    "/signup",
+    "/login",
   ];
   return (
     <div>
