@@ -30,3 +30,20 @@ export const createOrderedItem = async (
 export const deleteOrderedItem = async (field: string, value: string) => {
   await supabase.from("ordered_item").delete().eq(field, value);
 };
+
+// export const readOrderedItem = async (
+//   attributes: string,
+//   field: string,
+//   value: string
+// ) => {
+//   const { data, error } = await supabase
+//     .from("ordered_item")
+//     .select(attributes)
+//     .eq(field, value);
+//   if (error) {
+//     console.log("error reading data from ordered_item");
+//     return [];
+//   } else {
+//     return data || [];
+//   }
+// };

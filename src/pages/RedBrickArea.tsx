@@ -1,7 +1,7 @@
 // RedBrickArea.tsx
 import { useEffect, useState } from "react";
 import FoodTruck from "../Components/FoodTruck/FoodTruck";
-import { readItemCategory } from "../api/item_category";
+import { readItemCategory } from "../services/item_category";
 import type { FoodTruckType, ItemType } from "../types";
 import { Navigate } from "react-router-dom";
 import ShoppingCart from "../Components/ShoppingCart";

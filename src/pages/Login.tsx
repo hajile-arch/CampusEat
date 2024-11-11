@@ -1,26 +1,60 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import supabase from "../utils/supabase";
+import { readProfile } from "../services/profile";
 
 const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
 
-    // Logic for login could go here if needed
-    navigate('/home'); // Navigate to the homepage
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleSignIn = async (email: string, password: string) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      return null;
+    } else {
+      const user = await readProfile("*", "user_id", data.user.id);
+      return user;
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const user = handleSignIn(email, password);
+
+    if (await user) {
+      navigate("/home");
+    } else {
+      alert("Invalid email or password. Please try again");
+    }
   };
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
-      <form onSubmit={handleLogin} className="bg-white p-6 rounded shadow-md w-80">
-        <h2 className="text-2xl font-bold mb-5">WELCOME BACK</h2>
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-6 rounded shadow-md w-80"
+      >
+        <h2 className="text-2xl font-bold mb-5">Login</h2>
 
         <input
           className="mb-4 p-2 w-full border rounded"
@@ -28,26 +62,28 @@ const Login: React.FC = () => {
           name="email"
           placeholder="Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={handleEmailChange}
           required
         />
 
         <div className="relative">
           <input
-            className="mb-4 p-2 w-full border rounded pr-10"
-            type={showPassword ? 'text' : 'password'}
+            className="mb-4 p-2 w-full border rounded pr-10" // Add padding for icon
+            type={showPassword ? "text" : "password"} // Toggle between password and text types
             name="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
             required
           />
           <span
-            onClick={() => setShowPassword((prev) => !prev)}
-            className="absolute right-0 pr-3 cursor-pointer"
-            style={{ top: '9px' }} // Adjusted the top position slightly
+            onClick={togglePasswordVisibility}
+            className="absolute top-1/2 transform -translate-y-[90%] right-3 flex items-center cursor-pointer"
           >
-            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+            <FontAwesomeIcon
+              icon={showPassword ? faEyeSlash : faEye}
+              className="text-gray-600"
+            />
           </span>
         </div>
 
@@ -58,17 +94,14 @@ const Login: React.FC = () => {
           Login
         </button>
 
-        {/* Sign up prompt below the login button */}
-        <p className="mt-4 text-left">
-          If you don't have an account,{' '}
-          <Link to="/signup" className="text-blue-500 underline">
-            Sign up
-          </Link>
-        </p>
-        <p className="mt-2 text-left">
-          <Link to="/forgot-password" className="text-blue-500 underline">
-            Forgot Password?
-          </Link>
+        <p className="mt-4 text-center">
+          Don’t have an account?{" "}
+          <span
+            onClick={() => navigate("/signup")}
+            className="text-blue-500 hover:underline cursor-pointer"
+          >
+            Sign Up
+          </span>
         </p>
       </form>
     </div>

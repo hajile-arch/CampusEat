@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { readUser, createUser } from "../api/user";
 import { FormType, CandidateKeyType } from "../types";
+import supabase from "../utils/supabase";
+import { createProfile, readProfile } from "../services/profile";
 
 const Signup: React.FC = () => {
   const [formData, setFormData] = useState<FormType>({
@@ -21,38 +22,58 @@ const Signup: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  console.log(formData);
-
   const accountAlreadyExist = (users: CandidateKeyType[]) => {
     for (const user of users) {
-      if (user.student_id.toUpperCase() == formData.studentID.toUpperCase()) {
-        alert("Student ID already exist");
+      if (user.student_id.toUpperCase() === formData.studentID.toUpperCase()) {
+        alert("Student ID already exists");
         return true;
       }
-      if (user.email.toLowerCase() == formData.email.toLowerCase()) {
-        alert("Email already exist");
+      if (user.email.toLowerCase() === formData.email.toLowerCase()) {
+        alert("Email already exists");
         return true;
       }
-      if (user.phone_number == formData.phoneNumber) {
-        alert("Phone number already exist");
+      if (user.phone_number === formData.phoneNumber) {
+        alert("Phone number already exists");
         return true;
       }
     }
     return false;
   };
 
-  const handleSubmit = async () => {
-    const users = await readUser("student_id, email, phone_number")
+  const handleSignUp = async (formData: FormType) => {
+    const { data, error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+    });
 
-    if (users) {
-      if (!accountAlreadyExist(users as unknown as CandidateKeyType[])) {
-        const user_created = await createUser(formData);
-  
+    if (error) {
+      alert("Failed to create account, please try again.");
+      console.log("error signing up: ", error);
+    } else {
+      if (data.user && data.user.id) {
+        const user_created = await createProfile(
+          formData.studentID,
+          data.user.id,
+          formData.name,
+          formData.phoneNumber,
+          formData.email
+        );
+
         if (user_created) {
           navigate("/login");
         } else {
-          alert("Fail to create account, please try again.");
+          console.log("error: fail to create profile");
         }
+      }
+    }
+  };
+
+  const handleSubmit = async (formData: FormType) => {
+    const users = await readProfile("student_id, email, phone_number");
+
+    if (users) {
+      if (!accountAlreadyExist(users as unknown as CandidateKeyType[])) {
+        handleSignUp(formData);
       }
     }
   };
@@ -62,7 +83,7 @@ const Signup: React.FC = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          handleSubmit();
+          handleSubmit(formData);
         }}
         className="bg-white p-6 rounded shadow-md w-80"
       >
@@ -100,11 +121,10 @@ const Signup: React.FC = () => {
           required
         />
 
-        {/* Password Input with Toggle */}
         <div className="relative mb-4">
           <input
             className="p-2 w-full border rounded"
-            type={showPassword ? "text" : "password"} // Toggle between 'text' and 'password'
+            type={showPassword ? "text" : "password"}
             name="password"
             placeholder="Password"
             value={formData.password}
@@ -112,7 +132,7 @@ const Signup: React.FC = () => {
             required
           />
           <span
-            onClick={() => setShowPassword((prev) => !prev)} // Toggle password visibility on click
+            onClick={() => setShowPassword((prev) => !prev)}
             className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
           >
             <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
@@ -126,7 +146,7 @@ const Signup: React.FC = () => {
           placeholder="Phone Number"
           value={formData.phoneNumber}
           onChange={handleChange}
-          pattern="^\d{10}$"
+          pattern="^\d{10,11}$"
           title="Please enter a valid 10-digit phone number."
           required
         />
@@ -138,7 +158,6 @@ const Signup: React.FC = () => {
           Sign Up
         </button>
 
-        {/* Already have an account? Login */}
         <p className="mt-4 text-center">
           Already have an account?{" "}
           <span

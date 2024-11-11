@@ -1,0 +1,50 @@
+import supabase from "../utils/supabase";
+
+export const createProfile = async (
+  student_id: string,
+  user_id: string,
+  name: string,
+  phone_number: string,
+  email: string
+) => {
+  const { error } = await supabase.from("profile").insert({
+    student_id: student_id,
+    user_id: user_id,
+    name: name,
+    phone_number: phone_number,
+    email: email,
+  });
+
+  if (error) {
+    console.log("error creating data in profile: ", error);
+    return false;
+  }
+  return true;
+};
+
+export const readProfile = async (
+  attributes: string,
+  field?: string,
+  value?: string
+) => {
+  let query = supabase.from("profile").select(attributes);
+
+  if (field && value) {
+    console.log(field, value);
+    query = query.eq(field, value);
+  }
+
+  const { data, error } = await query;
+
+  if (error) {
+    console.log("error reading profile: ", error);
+    return null;
+  }
+
+  if (data) {
+    console.log(data);
+    return data;
+  } else {
+    console.log("no data returned");
+  }
+};

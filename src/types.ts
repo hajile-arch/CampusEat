@@ -50,6 +50,15 @@ export interface OrderedItemType {
   total_price: number;
 }
 
+export interface OrderTypeAndOrderedItemType {
+  order_id: OrderedItemType;
+  created_at: string;
+  from_user_id: string;
+  to_user_id: string;
+  location: string;
+  status: string;
+}
+
 export interface FormType {
   studentID: string;
   name: string;
@@ -74,4 +83,13 @@ export interface StallType {
   category_id: string;
   category_name: string;
   category_img: string;
+}
+
+export interface ProfileType {
+  student_id: string;
+  created_at: string;
+  name: string;
+  phone_number: string;
+  user_id: string;
+  email: string;
 }

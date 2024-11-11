@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 // import { FaShoppingCart, FaTimes } from "react-icons/fa";
 import { ItemType } from "../types";
-import { readItem } from "../api/item";
+import { readItem } from "../services/item";
 import ShoppingCart from "../Components/ShoppingCart";
 import { useParams } from "react-router-dom";
 

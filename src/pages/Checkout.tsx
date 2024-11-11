@@ -2,8 +2,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { ItemType } from "../types";
 import { useEffect, useState } from "react";
 import ItemList from "../Components/Checkout/ItemList";
-import { createOrder, deleteOrder, readOrder } from "../api/order";
-import { createOrderedItem, deleteOrderedItem } from "../api/ordered_item";
+import { createOrder, deleteOrder, readOrder } from "../services/order";
+import { createOrderedItem, deleteOrderedItem } from "../services/ordered_item";
 import PendingOrder from "../Components/Checkout/PendingOrder";
 
 interface CartItem {
