@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+import { OrderTypeAndOrderedItemType } from "../../types";
+import { readProfile } from "../../services/profile";
+
 type Order = {
   id: string;
   status: string;
@@ -36,18 +40,28 @@ const completedOrders: Order[] = [
   },
 ];
 
-const calculateTotalPrice = (
-  items: { price: string; quantity: number }[]
-): number => {
-  const total = items.reduce(
-    (acc, item) =>
-      acc + parseFloat(item.price.replace("$", "")) * item.quantity,
-    0
-  );
-  return total + 2; // Service charge of RM 2
-};
+interface MyOrdersProps {
+  myOrders: OrderTypeAndOrderedItemType[];
+}
 
-const MyOrders = () => {
+const MyOrders: React.FC<MyOrdersProps> = ({ myOrders }) => {
+  const [toUser, setToUser] = useState({ name: "", phone_number: "" });
+
+  const getDeliverStudentInformation = (student_id: string) => {
+    return readProfile("name, phone_number", "student_id", student_id);
+  };
+
+  const calculateTotalPrice = (
+    items: { price: string; quantity: number }[]
+  ): number => {
+    const total = items.reduce(
+      (acc, item) =>
+        acc + parseFloat(item.price.replace("$", "")) * item.quantity,
+      0
+    );
+    return total + 2; // Service charge of RM 2
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 w-1/2 p-6">
       <div className="max-w-4xl mx-auto">
@@ -61,70 +75,79 @@ const MyOrders = () => {
             Pending Orders
           </h3>
           <div className="space-y-6">
-            {pendingOrders.map((order, key) => (
-              <div
-                key={key}
-                className="bg-white shadow-lg rounded-lg p-6 border border-gray-200 hover:shadow-xl transition-all"
-              >
-                <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                  Order ID: <span className="font-bold">{order.id}</span>
-                </h3>
-                <p className="text-sm text-gray-500 mb-4">
-                  Status:{" "}
-                  <span className="text-yellow-600 font-semibold">
-                    {order.status}
-                  </span>
-                </p>
+            {myOrders
+              .filter((order) => {
+                return order.status === "Delivering";
+              })
+              .map((order, key) => {
+                if (order.to_user_id) {
+                  console.log("hit");
+                  // getDeliverStudentInformation(order.to_user_id).then(
+                  //   (data) => {
+                  //     setToUser(data[0]);
+                  //   }
+                  // );
+                }
 
-                {/* Displaying Delivery Details for Delivering Orders */}
-                {order.status === "Delivering" && order.deliveryDetails && (
-                  <div className="mt-3 text-sm text-gray-600">
-                    <p>
-                      <strong>Delivery Student:</strong>
+                return (
+                  <div
+                    key={key}
+                    className="bg-white shadow-lg rounded-lg p-6 border border-gray-200 hover:shadow-xl transition-all"
+                  >
+                    <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                      Order ID: <span className="font-bold">{key + 1}</span>
+                    </h3>
+                    <p className="text-sm text-gray-500 mb-4">
+                      Status:{" "}
+                      <span className="text-yellow-600 font-semibold">
+                        {order.status}
+                      </span>
                     </p>
-                    <p>ID: {order.deliveryDetails.studentId}</p>
-                    <p>Name: {order.deliveryDetails.studentName}</p>
-                    <p>Phone: {order.deliveryDetails.phoneNumber}</p>
+
+                    <div className="mt-3 text-sm text-gray-600">
+                      <p>
+                        <strong>Delivery Student:</strong>
+                      </p>
+                      <p>ID: {order.to_user_id}</p>
+                      <p>Name: {toUser.name}</p>
+                      <p>Phone: {toUser.phone_number}</p>
+                    </div>
+
+                    <div className="mt-3">
+                      <p className="text-md font-medium text-gray-600 mb-2">
+                        Ordered Items:
+                      </p>
+                      <ul className="pl-5 list-disc text-sm text-gray-700 space-y-1">
+                        {order.ordered_item.map((item, key) => {
+                          <li key={key}>
+                            {item.unit} x {item.name} - {item.total_price}
+                          </li>;
+                        })}
+                        {/* {order.items.map((item, index) => (
+                       
+                      ))} */}
+                      </ul>
+                    </div>
+
+                    <p className="mt-3 text-sm text-gray-600">
+                      <strong>Location:</strong> {order.location}
+                    </p>
+
+                    <div className="mt-4 flex items-center justify-between">
+                      <p className="text-lg font-semibold text-gray-800">
+                        <strong>Total Price:</strong>{" "}
+                        <span className="text-xl text-green-600 font-bold">
+                          {order.item}
+                          {/* ${calculateTotalPrice(order.item).toFixed(2)}{" "} */}
+                        </span>
+                        <span className="text-sm text-gray-500">
+                          (Including RM 2 service charge)
+                        </span>
+                      </p>
+                    </div>
                   </div>
-                )}
-
-                <div className="mt-3">
-                  <p className="text-md font-medium text-gray-600 mb-2">
-                    Ordered Items:
-                  </p>
-                  <ul className="pl-5 list-disc text-sm text-gray-700 space-y-1">
-                    {order.items.map((item, index) => (
-                      <li key={index}>
-                        {item.quantity}x {item.name} - {item.price}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                <p className="mt-3 text-sm text-gray-600">
-                  <strong>Location:</strong> {order.location}
-                </p>
-
-                {/* Total Price with Service Charge */}
-                <div className="mt-4 flex items-center justify-between">
-                  <p className="text-lg font-semibold text-gray-800">
-                    <strong>Total Price:</strong>{" "}
-                    <span className="text-xl text-green-600 font-bold">
-                      ${calculateTotalPrice(order.items).toFixed(2)}{" "}
-                    </span>
-                    <span className="text-sm text-gray-500">
-                      (Including RM 2 service charge)
-                    </span>
-                  </p>
-
-                  <div className="flex justify-end mt-4">
-                    <button className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-md transition duration-300 ease-in-out">
-                      Cancel Order
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
+                );
+              })}
           </div>
         </div>
 

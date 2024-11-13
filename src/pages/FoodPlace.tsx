@@ -33,23 +33,17 @@ const FoodPlace: React.FC<FoodPlaceProps> = ({ cartItems, setCartItems }) => {
   }, []);
 
   const handleSubmitButtonState = (searchQuery: string) => {
-    if (searchQuery == null || searchQuery.trim() === "") {
-      console.log("empty");
-      setDisableSubmitButton(true);
-    } else {
-      console.log("not empty");
-      setDisableSubmitButton(false);
-    }
+    setDisableSubmitButton(!searchQuery.trim());
   };
 
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const filteredFoodItems = foodItems.filter((item) => {
-      return item.item_name
+    const filteredFoodItems = foodItems.filter((item) =>
+      item.item_name
         .toLowerCase()
         .trim()
-        .includes(searchQuery.toLowerCase().trim());
-    });
+        .includes(searchQuery.toLowerCase().trim())
+    );
     setFilteredFoods(filteredFoodItems);
   };
 
@@ -58,8 +52,7 @@ const FoodPlace: React.FC<FoodPlaceProps> = ({ cartItems, setCartItems }) => {
   }
 
   return (
-    <div className="fixed h-screen w-screen">
-      <div className="absolute inset-0 bg-white bg-opacity-100"></div>
+    <div className="fixed h-screen w-screen bg-gradient-to-r from-indigo-50 via-purple-50 to-blue-50">
       <div className="relative flex flex-col h-full">
         <button
           onClick={handleBackClick}
@@ -81,26 +74,27 @@ const FoodPlace: React.FC<FoodPlaceProps> = ({ cartItems, setCartItems }) => {
           </svg>
         </button>
 
-        <div className="flex flex-col justify-center items-center h-1/2 text-center mt-4">
-          <div className="bebas-neue-regular text-black font-bold text-[6rem] leading-[100px]">
+        <div className="flex flex-col justify-center items-center mt-12 mb-6">
+          <h1 className="text-[3.5rem] font-extrabold text-gray-800">
             EAT WHAT TODAY BRO?
-          </div>
-          <p className="text-black text-xl montserrat-normal mt-2">
+          </h1>
+          <p className="text-gray-600 text-lg mt-2">
             Choose from our venue options below
           </p>
-          <p className="text-black text-[15px] mt-3">
+          <p className="text-gray-500 text-md mt-1">
             Different Variety <span className="text-yellow-400">Everyday!</span>
           </p>
         </div>
 
+        {/* Search Section */}
         <form
-          className="flex justify-center items-center gap-4 mb-10"
-          onSubmit={(e) => handleSearch(e)}
+          className="flex justify-center gap-4 mb-8"
+          onSubmit={handleSearch}
         >
           <input
             type="text"
             placeholder="Search Foods"
-            className="p-2 border rounded-md w-1/2 border-black"
+            className="p-3 w-1/2 rounded-full border border-gray-300 shadow-sm focus:outline-none focus:border-blue-400 transition"
             value={searchQuery}
             onChange={(e) => {
               setSearchQuery(e.target.value);
@@ -109,37 +103,36 @@ const FoodPlace: React.FC<FoodPlaceProps> = ({ cartItems, setCartItems }) => {
           />
           <button
             disabled={disableSubmitButton}
-            className={`${
+            className={`py-3 px-6 rounded-full text-white transition ${
               disableSubmitButton
-                ? "bg-[#c9dbff]"
-                : "bg-[#497cf4] hover:bg-[#3559ab]"
-            } py-2 px-4 transition-colors duration-500 text-white rounded-md`}
+                ? "bg-gray-300 cursor-not-allowed"
+                : "bg-blue-500 hover:bg-blue-600 shadow-md"
+            }`}
           >
             Search
           </button>
         </form>
 
-        <div className="flex justify-center items-center h-[50%] bg-slate-900 py-2">
-          <div className="grid grid-cols-3 gap-6 p-2">
+        {/* Food Options Section */}
+        <div className="flex justify-center items-center bg-white shadow-md rounded-lg py-6 mx-12">
+          <div className="grid grid-cols-3 gap-6 p-4">
             {filteredFoods.length > 0 ? (
-              filteredFoods
-                .slice(0, 3)
-                .map((food, key) => (
-                  <Option
-                    key={key}
-                    imageSrc={`/img/food_truck/${food.item_name
-                      .replace(/ /g, "_")
-                      .toLowerCase()}.jpg`}
-                    imageTitle={food.item_name}
-                    linkTo={`/${food.item_category.category_type
-                      .toLowerCase()
-                      .replace(/ /g, "-")}/${food.item_category.category_name
-                      .toLowerCase()
-                      .replace(/ /g, "-")}`}
-                  />
-                ))
+              filteredFoods.map((food, key) => (
+                <Option
+                  key={key}
+                  imageSrc={`/img/food_truck/${food.item_name
+                    .replace(/ /g, "_")
+                    .toLowerCase()}.jpg`}
+                  imageTitle={food.item_name}
+                  linkTo={`/${food.item_category.category_type
+                    .toLowerCase()
+                    .replace(/ /g, "-")}/${food.item_category.category_name
+                    .toLowerCase()
+                    .replace(/ /g, "-")}`}
+                />
+              ))
             ) : (
-              // Show default venue options if no search results
+              // Default venue options if no search results
               <>
                 <Option
                   imageSrc="/food_truck_area.jpeg"
@@ -162,7 +155,7 @@ const FoodPlace: React.FC<FoodPlaceProps> = ({ cartItems, setCartItems }) => {
         </div>
       </div>
 
-      {/* Render the ShoppingCart component */}
+      {/* ShoppingCart Component */}
       <ShoppingCart cartItems={cartItems} setCartItems={setCartItems} />
     </div>
   );

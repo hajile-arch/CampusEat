@@ -43,16 +43,15 @@ const Home = () => {
               setShowProfile((prev) => !prev);
             }}
           ></button>
-          <div className="absolute top-20 right-4 z-50 w-[300px] h-[300px] bg-white rounded-md overflow-hidden">
-            {/* <button
-              className="bg-red-500"
-              onClick={() => {
-                supabase.auth.signOut();
-              }}
-            >
-              Sign Out
-            </button> */}
-          </div>
+
+          <button
+            className="absolute top-20 right-4 z-50 border-2 border-red-300 bg-red-500 text-white px-4 py-2 rounded-md"
+            onClick={() => {
+              supabase.auth.signOut();
+            }}
+          >
+            Sign Out
+          </button>
         </>
       )}
 
