@@ -30,7 +30,6 @@ export const readProfile = async (
   let query = supabase.from("profile").select(attributes);
 
   if (field && value) {
-    console.log(field, value);
     query = query.eq(field, value);
   }
 
@@ -42,7 +41,6 @@ export const readProfile = async (
   }
 
   if (data) {
-    console.log(data);
     return data;
   } else {
     console.log("no data returned");

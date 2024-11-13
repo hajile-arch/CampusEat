@@ -1,20 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import supabase from "../../utils/supabase";
 
 const Content = () => {
   const navigate = useNavigate();
 
   return (
     <div className="ml-[50px] flex-grow bg-black bg-opacity-100">
-      {/* TODO: sign out button */}
-      <button
-        className="bg-red-500"
-        onClick={() => {
-          supabase.auth.signOut();
-        }}
-      >
-        Sign Out
-      </button>
       {/* Top Section with Background Image, Title, and Paragraph */}
       <div
         className="relative h-[65%] bg-cover bg-center"

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 interface OptionProps {
   imageSrc: string;
@@ -9,7 +9,10 @@ interface OptionProps {
 
 const Option: React.FC<OptionProps> = ({ imageSrc, imageTitle, linkTo }) => {
   return (
-    <Link to={linkTo} className="relative group bg-white flex justify-center items-center h-[320px] w-[320px] overflow-hidden">
+    <Link
+      to={linkTo}
+      className="relative group bg-white flex justify-center items-center h-[320px] w-[320px] overflow-hidden"
+    >
       <img
         src={imageSrc}
         alt={imageTitle}

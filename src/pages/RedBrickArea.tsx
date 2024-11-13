@@ -5,7 +5,6 @@ import { readItemCategory } from "../services/item_category";
 import type { FoodTruckType, ItemType } from "../types";
 import { Navigate } from "react-router-dom";
 import ShoppingCart from "../Components/ShoppingCart";
-import supabase from "../utils/supabase";
 
 interface RedBrickAreaProps {
   cartItems: { item: ItemType; quantity: number }[];
@@ -25,7 +24,7 @@ const RedBrickArea: React.FC<RedBrickAreaProps> = ({
       const items = (await readItemCategory(
         "category_id, category_name",
         "category_type",
-        "Food Truck"
+        "Red Brick Area"
       )) as FoodTruckType[] | undefined;
       if (items) {
         setItemCategory(items);

@@ -29,3 +29,13 @@ export const readItem = async (attributes: string, category_name: string) => {
     return data;
   }
 };
+
+export const readAllItems = async (attributes: string) => {
+  const { data, error } = await supabase.from("item").select(attributes);
+
+  if (error) {
+    console.log("error reading data from item");
+  } else {
+    return data || [];
+  }
+};
