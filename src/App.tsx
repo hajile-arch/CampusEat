@@ -5,6 +5,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
+
 import { useSpring, animated } from "react-spring";
 import Preloader from "./pages/Prelaoder";
 import Signup from "./pages/Signup";
@@ -22,7 +23,7 @@ import FoodTruckMenu from "./pages/FoodTruckMenu";
 import supabase from "./utils/supabase";
 import { Session } from "@supabase/supabase-js";
 
-const App: React.FC = () => {
+const App = () => {
   const [loading, setLoading] = useState(true);
   const [cartItems, setCartItems] = useState<
     { item: ItemType; quantity: number }[]

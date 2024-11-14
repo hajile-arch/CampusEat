@@ -47,5 +47,23 @@ export const createOrder = async (from_user_id: string, location: string) => {
 };
 
 export const deleteOrder = async (field: string, value: string) => {
-  await supabase.from("order").delete().eq(field, value);
+  const { error } = await supabase.from("order").delete().eq(field, value);
+  if (error) {
+    console.log("error removing data in order", error);
+  }
+};
+
+export const updateOrder = async (
+  status: string,
+  field: string,
+  value: string
+) => {
+  const { error } = await supabase
+    .from("order")
+    .update({ status: status })
+    .eq(field, value);
+
+  if (error) {
+    console.log("error updating data in order", error);
+  }
 };

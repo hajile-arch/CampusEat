@@ -39,3 +39,16 @@ export const readAllItems = async (attributes: string) => {
     return data || [];
   }
 };
+
+export const readItemName = async (item_id: string) => {
+  const { data, error } = await supabase
+    .from("item")
+    .select("item_name")
+    .eq("item_id", item_id);
+
+  if (error) {
+    console.log("error reading name from item", error);
+  } else {
+    return data || null;
+  }
+};

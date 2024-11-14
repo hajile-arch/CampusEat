@@ -1,8 +1,7 @@
-import { Profiler, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { readOrder } from "../services/order";
 import { OrderTypeAndOrderedItemType } from "../types";
-import MyOrders from "../Components/CheckOrders/MyOrders";
-import OtherOrders from "../Components/CheckOrders/OtherOrders";
+import OrderSection from "../Components/CheckOrders/OrderSection";
 import { getUserSession } from "../services/get_session";
 import { readProfile } from "../services/profile";
 
@@ -12,6 +11,7 @@ const CheckOrders = () => {
   const [otherOrders, setOtherOrders] = useState<OrderTypeAndOrderedItemType[]>(
     []
   );
+  const [refresh, setRefresh] = useState(0);
 
   useEffect(() => {
     void (async () => {
@@ -39,12 +39,29 @@ const CheckOrders = () => {
       );
     };
     getOrderAndOrderedItem();
-  }, [studentId]);
+  }, [studentId, refresh]);
+
+  useEffect(() => {
+    console.log("test: ", otherOrders);
+  }, [otherOrders]);
 
   return (
     <div className="flex w-full">
-      <MyOrders myOrders={myOrders} />
-      <OtherOrders />
+      <OrderSection
+        title={"My Orders"}
+        orders={myOrders}
+        firstStatus="Delivering"
+        secondStatus="Completed"
+        setRefresh={setRefresh}
+      />
+      <OrderSection
+        title={"Other Orders"}
+        orders={otherOrders}
+        firstStatus="Delivering"
+        secondStatus="Pending"
+        setRefresh={setRefresh}
+      />
+      {/* <OtherOrders otherOrders={otherOrders} /> */}
     </div>
   );
 };
