@@ -12,16 +12,16 @@ interface StallMenuProps {
 }
 
 const StallMenu: React.FC<StallMenuProps> = ({ cartItems, setCartItems }) => {
-  const { stall_name } = useParams();
+  const { stall } = useParams();
   const [items, setItems] = useState<ItemType[]>([]);
 
   useEffect(() => {
-    if (stall_name) {
+    if (stall) {
       void (async () => {
         try {
           const data = await readItem(
             "*",
-            stall_name
+            stall
               .replace(/-/g, " ")
               .replace(/\b\w/g, (char) => char.toUpperCase())
           );
@@ -33,12 +33,13 @@ const StallMenu: React.FC<StallMenuProps> = ({ cartItems, setCartItems }) => {
     } else {
       console.log("error: page not found");
     }
-  }, [stall_name]);
+  }, [stall]);
 
-  const formattedStallName = stall_name
+  const formattedStallName = stall
     ?.replace(/-/g, " ")
     .replace(/\b\w/g, (char) => char.toUpperCase());
 
+  // TODO: make this section into reusable function
   const handleAddToOrder = (item: ItemType) => {
     const existingItemIndex = cartItems.findIndex(
       (cartItem) => cartItem.item.item_id === item.item_id
@@ -51,7 +52,7 @@ const StallMenu: React.FC<StallMenuProps> = ({ cartItems, setCartItems }) => {
     } else {
       setCartItems([...cartItems, { item, quantity: 1 }]);
     }
-    alert(Added ${item.item_name} to order!);
+    alert(`Added ${item.item_name} to order!`);
   };
 
   return (

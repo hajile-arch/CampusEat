@@ -23,6 +23,7 @@ import FoodTruckMenu from "./pages/FoodTruckMenu";
 import supabase from "./utils/supabase";
 import { Session } from "@supabase/supabase-js";
 import StudentLounge from "./pages/StudentLounge";
+import StallMenu from "./pages/StallMenu";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -129,7 +130,15 @@ const App = () => {
                       />
                     }
                   />
-                  {/* <Route path="/student-lounge/:stall" element={<StallMenu loungeItems={loungeItems} cartItems={cartItems} setCartItems={setCartItems} />} /> */}
+                  <Route
+                    path="/student-lounge/:stall"
+                    element={
+                      <StallMenu
+                        cartItems={cartItems}
+                        setCartItems={setCartItems}
+                      />
+                    }
+                  />
                 </>
               ) : (
                 <>

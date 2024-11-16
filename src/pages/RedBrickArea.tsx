@@ -1,4 +1,3 @@
-// RedBrickArea.tsx
 import { useEffect, useState } from "react";
 import FoodTruck from "../Components/FoodTruck/FoodTruck";
 import { readItemCategory } from "../services/item_category";
@@ -22,7 +21,7 @@ const RedBrickArea: React.FC<RedBrickAreaProps> = ({
   useEffect(() => {
     void (async () => {
       const items = (await readItemCategory(
-        "category_id, category_name",
+        "category_id, category_name, category_type",
         "category_type",
         "Red Brick Area"
       )) as FoodTruckType[] | undefined;
@@ -72,12 +71,16 @@ const RedBrickArea: React.FC<RedBrickAreaProps> = ({
       </p>
 
       <div className="mt-8 space-y-1">
-        {itemCategory.map((truck) => (
-          <FoodTruck
-            key={truck.category_id}
-            category_name={truck.category_name}
-          />
-        ))}
+        {itemCategory.map((truck) => {
+          console.log(truck.category_type);
+          return (
+            <FoodTruck
+              key={truck.category_id}
+              category_name={truck.category_name}
+              category_type={truck.category_type}
+            />
+          );
+        })}
       </div>
 
       <ShoppingCart cartItems={cartItems} setCartItems={setCartItems} />

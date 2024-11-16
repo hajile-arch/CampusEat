@@ -76,6 +76,7 @@ export interface CandidateKeyType {
 export interface FoodTruckType {
   category_id: string;
   category_name: string;
+  category_type: string;
   category_img: string;
 }
 

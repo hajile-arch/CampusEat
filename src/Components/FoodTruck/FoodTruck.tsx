@@ -1,16 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface FoodTruckProps {
   category_name: string;
+  category_type: string;
 }
 
-const FoodTruck: React.FC<FoodTruckProps> = ({ category_name }) => {
+const FoodTruck: React.FC<FoodTruckProps> = ({
+  category_name,
+  category_type,
+}) => {
   const navigate = useNavigate();
 
-  const handleTruckClick = (truckName: string) => {
-    navigate(`/red-brick-area/${truckName.replace(/ /g, "-").toLowerCase()}`);
+  const handleTruckClick = (truckType: string, truckName: string) => {
+    navigate(
+      `/${truckType.replace(/ /g, "-").toLowerCase()}/${truckName
+        .replace(/ /g, "-")
+        .toLowerCase()}`
+    );
   };
+
+  useEffect(() => {
+    console.log("category_type: ", category_type);
+  }, [category_type]);
 
   const [zoomImage, setZoomImage] = useState("");
 
@@ -24,7 +36,9 @@ const FoodTruck: React.FC<FoodTruckProps> = ({ category_name }) => {
         onMouseLeave={() => setZoomImage("")}
       >
         <img
-          src={`/img/food_truck/${category_name
+          src={`/img/${category_type
+            .replace(/ /g, "-")
+            .toLowerCase()}/${category_name
             .replace(/ /g, "_")
             .toLowerCase()}.jpg`}
           className={"w-full duration-500 ease-in-out"}
@@ -44,7 +58,7 @@ const FoodTruck: React.FC<FoodTruckProps> = ({ category_name }) => {
           <button
             className="px-6 py-2 border-2 border-white text-white font-semibold  transition duration-300 hover:bg-white hover:text-black"
             onClick={() => {
-              handleTruckClick(category_name);
+              handleTruckClick(category_type, category_name);
             }}
           >
             See Menu

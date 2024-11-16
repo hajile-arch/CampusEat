@@ -21,7 +21,7 @@ const StudentLounge: React.FC<StudentLoungeProps> = ({
   useEffect(() => {
     void (async () => {
       const items = (await readItemCategory(
-        "category_id, category_name",
+        "category_id, category_name, category_type",
         "category_type",
         "Student Lounge"
       )) as FoodTruckType[] | undefined;
@@ -75,6 +75,7 @@ const StudentLounge: React.FC<StudentLoungeProps> = ({
           <FoodTruck
             key={truck.category_id}
             category_name={truck.category_name}
+            category_type={truck.category_type}
           />
         ))}
       </div>
