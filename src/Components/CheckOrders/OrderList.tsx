@@ -127,7 +127,6 @@ const OrderList: React.FC<OrderListProps> = ({
                               setRefresh((prev) => prev + 1);
                             });
                           } else {
-                            console.log(order.order_id);
                             await updateOrder(
                               "Delivering",
                               studentId,

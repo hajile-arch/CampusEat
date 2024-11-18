@@ -61,7 +61,7 @@ export const updateOrder = async (
 ) => {
   const { error } = await supabase
     .from("order")
-    .update({ status: status, student_id: student_id })
+    .update({ status: status, to_user_id: student_id })
     .eq(field, value);
 
   if (error) {
