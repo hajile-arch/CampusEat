@@ -5,7 +5,9 @@ import ItemList from "../Components/Checkout/ItemList";
 import { createOrder, deleteOrder, readOrder } from "../services/order";
 import { createOrderedItem, deleteOrderedItem } from "../services/ordered_item";
 import PendingOrder from "../Components/Checkout/PendingOrder";
-import QRCode from "react-qr-code"; // Import the QRCode component
+import QRCode from "react-qr-code";
+import { getUserSession } from "../services/get_session";
+import { readProfile } from "../services/profile";
 
 interface CartItem {
   item: ItemType;
@@ -24,6 +26,23 @@ const Checkout = () => {
   const [inputValue, setInputValue] = useState("");
   const [seconds, setSeconds] = useState(0);
   const [orderId, setOrderId] = useState("");
+  const [studentId, setStudentId] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const user = await getUserSession();
+      if (user?.id) {
+        const profile = await readProfile("student_id", "user_id", user.id);
+        if (profile && profile.length > 0) {
+          setStudentId(profile[0].student_id);
+        }
+      } else {
+        console.log("No user session found.");
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
 
   useEffect(() => {
     if (inputValue.trim() !== "") {
@@ -71,7 +90,12 @@ const Checkout = () => {
   }, [seconds, orderId]);
 
   const handleCreateOrder = async () => {
-    await createOrder("B1234567", inputValue).then(async (order_id) => {
+    if (!studentId) {
+      console.error("Student ID not found.");
+      return;
+    }
+
+    await createOrder(studentId, inputValue).then(async (order_id) => {
       setOrderId(order_id);
       for (const cartItem of cartItems) {
         await createOrderedItem(

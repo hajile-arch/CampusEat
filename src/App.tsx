@@ -15,7 +15,6 @@ import FoodPlace from "./pages/FoodPlace";
 import CheckOrders from "./pages/CheckOrders";
 import Home from "./pages/Homepage";
 import RedBrickArea from "./pages/RedBrickArea";
-import BlockHCafe from "./pages/BlockHCafe";
 import Checkout from "./pages/Checkout";
 import { ItemType } from "./types";
 import ShoppingCart from "../src/Components/ShoppingCart";
@@ -24,6 +23,7 @@ import supabase from "./utils/supabase";
 import { Session } from "@supabase/supabase-js";
 import StudentLounge from "./pages/StudentLounge";
 import StallMenu from "./pages/StallMenu";
+import BlockHCafeMenu from "./pages/BlockHCafeMenu";
 
 const App = () => {
   const [loading, setLoading] = useState(true);
@@ -120,7 +120,15 @@ const App = () => {
                       />
                     }
                   />
-                  <Route path="/block-h-cafe" element={<BlockHCafe />} />
+                  <Route
+                    path="/block-h-cafe"
+                    element={
+                      <BlockHCafeMenu
+                        cartItems={cartItems}
+                        setCartItems={setCartItems}
+                      />
+                    }
+                  />
                   <Route
                     path="/student-lounge"
                     element={

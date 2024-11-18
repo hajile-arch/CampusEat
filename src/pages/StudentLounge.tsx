@@ -65,9 +65,9 @@ const StudentLounge: React.FC<StudentLoungeProps> = ({
         </svg>
       </button>
 
-      <h1 className="text-5xl font-bold text-center mt-8">Red Brick Area</h1>
+      <h1 className="text-5xl font-bold text-center mt-8">Student Lounge</h1>
       <p className="text-center text-lg mt-2 text-gray-700">
-        Number of food trucks to choose from for today: {itemCategory.length}
+        Number of lounge to choose from for today: {itemCategory.length}
       </p>
 
       <div className="mt-8 space-y-1">

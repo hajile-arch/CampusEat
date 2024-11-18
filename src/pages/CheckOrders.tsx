@@ -41,10 +41,6 @@ const CheckOrders = () => {
     getOrderAndOrderedItem();
   }, [studentId, refresh]);
 
-  useEffect(() => {
-    console.log("test: ", otherOrders);
-  }, [otherOrders]);
-
   return (
     <div className="flex w-full">
       <OrderSection
@@ -53,6 +49,7 @@ const CheckOrders = () => {
         firstStatus="Delivering"
         secondStatus="Completed"
         setRefresh={setRefresh}
+        studentId={studentId}
       />
       <OrderSection
         title={"Other Orders"}
@@ -60,6 +57,7 @@ const CheckOrders = () => {
         firstStatus="Delivering"
         secondStatus="Pending"
         setRefresh={setRefresh}
+        studentId={studentId}
       />
       {/* <OtherOrders otherOrders={otherOrders} /> */}
     </div>

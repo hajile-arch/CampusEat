@@ -10,6 +10,7 @@ interface OrderSectionProps {
   firstStatus: string;
   secondStatus: string;
   setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  studentId: string;
 }
 
 const OrderSection: React.FC<OrderSectionProps> = ({
@@ -18,6 +19,7 @@ const OrderSection: React.FC<OrderSectionProps> = ({
   firstStatus,
   secondStatus,
   setRefresh,
+  studentId,
 }) => {
   const [toUser, setToUser] = useState<{
     [key: string]: { name: string; phone_number: string };
@@ -102,6 +104,7 @@ const OrderSection: React.FC<OrderSectionProps> = ({
           itemNames={itemNames}
           status={firstStatus}
           setRefresh={setRefresh}
+          studentId={studentId}
         />
 
         <OrderList
@@ -112,6 +115,7 @@ const OrderSection: React.FC<OrderSectionProps> = ({
           itemNames={itemNames}
           status={secondStatus}
           setRefresh={setRefresh}
+          studentId={studentId}
         />
       </div>
     </div>

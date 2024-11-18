@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { ItemType } from "../types";
 import { readItem } from "../services/item";
 import ShoppingCart from "../Components/ShoppingCart";
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 
 interface FoodTruckMenuProps {
   cartItems: { item: ItemType; quantity: number }[];
@@ -17,6 +17,7 @@ const FoodTruckMenu: React.FC<FoodTruckMenuProps> = ({
 }) => {
   const { food_truck } = useParams();
   const [items, setItems] = useState<ItemType[]>([]);
+  const [goBack, setGoBack] = useState(false);
 
   useEffect(() => {
     if (food_truck) {
@@ -42,6 +43,14 @@ const FoodTruckMenu: React.FC<FoodTruckMenuProps> = ({
     ?.replace(/-/g, " ")
     .replace(/\b\w/g, (char) => char.toUpperCase());
 
+  const handleBackClick = () => {
+    setGoBack(true);
+  };
+
+  if (goBack) {
+    return <Navigate to="/red-brick-area" />;
+  }
+
   // TODO: make this section into reusable function
   const handleAddToOrder = (item: ItemType) => {
     const existingItemIndex = cartItems.findIndex(
@@ -60,6 +69,27 @@ const FoodTruckMenu: React.FC<FoodTruckMenuProps> = ({
   return (
     <>
       <div className="flex flex-col items-center min-h-screen bg-gray-200">
+        {/* Back Button */}
+        <button
+          onClick={handleBackClick}
+          className="absolute top-4 left-4 p-2 bg-transparent"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-8 w-8 text-blue-500"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 19l-7-7 7-7"
+            />
+          </svg>
+        </button>
+
         <h2 className="text-4xl font-bold text-gray-800 mt-8 mb-6">
           {formattedFoodTruck} Menu
         </h2>

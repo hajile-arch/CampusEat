@@ -1,46 +1,32 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import { ItemType } from "../types";
 import { readItem } from "../services/item";
 import ShoppingCart from "../Components/ShoppingCart";
 
-interface StallMenuProps {
+interface BlockHCafeMenuProps {
   cartItems: { item: ItemType; quantity: number }[];
   setCartItems: React.Dispatch<
     React.SetStateAction<{ item: ItemType; quantity: number }[]>
   >;
 }
 
-const StallMenu: React.FC<StallMenuProps> = ({ cartItems, setCartItems }) => {
-  const { stall } = useParams();
+const BlockHCafeMenu: React.FC<BlockHCafeMenuProps> = ({
+  cartItems,
+  setCartItems,
+}) => {
   const [items, setItems] = useState<ItemType[]>([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if (stall) {
-      void (async () => {
-        try {
-          const data = await readItem(
-            "*",
-            stall
-              .replace(/-/g, " ")
-              .replace(/\b\w/g, (char) => char.toUpperCase())
-          );
-          setItems(data as unknown as ItemType[]);
-        } catch (error) {
-          console.error("Failed to fetch items:", error);
-        }
-      })();
-    } else {
-      console.log("error: page not found");
-    }
-  }, [stall]);
+    void (async () => {
+      try {
+        const data = await readItem("*", "Block H Cafe"); // Fetch items specific to Block H Cafe
+        setItems(data as unknown as ItemType[]);
+      } catch (error) {
+        console.error("Failed to fetch menu items:", error);
+      }
+    })();
+  }, []);
 
-  const formattedStallName = stall
-    ?.replace(/-/g, " ")
-    .replace(/\b\w/g, (char) => char.toUpperCase());
-
-  // Add to Order Functionality
   const handleAddToOrder = (item: ItemType) => {
     const existingItemIndex = cartItems.findIndex(
       (cartItem) => cartItem.item.item_id === item.item_id
@@ -56,40 +42,13 @@ const StallMenu: React.FC<StallMenuProps> = ({ cartItems, setCartItems }) => {
     alert(`Added ${item.item_name} to order!`);
   };
 
-  // Back Button Functionality
-  const handleBackClick = () => {
-    navigate("/student-lounge");
-  };
-
   return (
     <div className="flex flex-col items-center min-h-screen bg-gray-200 relative">
-      {/* Back Button */}
-      <div
-        className="absolute top-4 left-4 p-2 bg-transparent z-10 cursor-pointer"
-        onClick={handleBackClick}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-8 w-8 text-blue-500"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-      </div>
-
-      {/* Stall Menu Heading */}
       <h2 className="text-4xl font-bold text-gray-800 mt-8 mb-6">
-        {formattedStallName} Menu
+        Block H Cafe Menu
       </h2>
 
-      {/* Stall Menu Items */}
+      {/* Menu Items */}
       <div className="flex justify-center w-full px-6">
         <div
           className={`grid grid-cols-1 sm:grid-cols-2 ${
@@ -105,7 +64,7 @@ const StallMenu: React.FC<StallMenuProps> = ({ cartItems, setCartItems }) => {
               style={{ width: "250px", height: "300px" }}
             >
               <img
-                src={`/img/stall/${item.item_name
+                src={`/img/block-h-cafe/${item.item_name
                   .replace(/ /g, "_")
                   .toLowerCase()}.jpg`}
                 alt={item.item_name}
@@ -148,4 +107,4 @@ const StallMenu: React.FC<StallMenuProps> = ({ cartItems, setCartItems }) => {
   );
 };
 
-export default StallMenu;
+export default BlockHCafeMenu;

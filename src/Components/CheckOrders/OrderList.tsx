@@ -15,6 +15,7 @@ interface OrderListProps {
   itemNames: { [key: string]: string };
   status: string;
   setRefresh: React.Dispatch<React.SetStateAction<number>>;
+  studentId: string;
 }
 
 const OrderList: React.FC<OrderListProps> = ({
@@ -25,6 +26,7 @@ const OrderList: React.FC<OrderListProps> = ({
   itemNames,
   status,
   setRefresh,
+  studentId,
 }) => {
   return (
     <div className="mb-12">
@@ -35,7 +37,6 @@ const OrderList: React.FC<OrderListProps> = ({
         {myOrders
           .filter((order) => order.status === status)
           .map((order) => {
-            console.log(order);
             return (
               <div
                 key={order.order_id}
@@ -64,22 +65,21 @@ const OrderList: React.FC<OrderListProps> = ({
                   </span>
                 </p>
 
-                {(title === "My Orders" || status === "Delivering") &&
-                  order.to_user_id && (
-                    <div className="mt-3 text-sm text-gray-600">
-                      <p>
-                        <strong>Delivery Student:</strong>
-                      </p>
-                      <p>ID: {order.to_user_id}</p>
-                      <p>
-                        Name: {toUser[order.to_user_id]?.name || "Loading..."}
-                      </p>
-                      <p>
-                        Phone:{" "}
-                        {toUser[order.to_user_id]?.phone_number || "Loading..."}
-                      </p>
-                    </div>
-                  )}
+                {order.to_user_id && (
+                  <div className="mt-3 text-sm text-gray-600">
+                    <p>
+                      <strong>Delivery Student:</strong>
+                    </p>
+                    <p>ID: {order.to_user_id}</p>
+                    <p>
+                      Name: {toUser[order.to_user_id]?.name || "Loading..."}
+                    </p>
+                    <p>
+                      Phone:{" "}
+                      {toUser[order.to_user_id]?.phone_number || "Loading..."}
+                    </p>
+                  </div>
+                )}
 
                 <div className="mt-3">
                   <p className="text-md font-medium text-gray-600 mb-2">
@@ -120,14 +120,17 @@ const OrderList: React.FC<OrderListProps> = ({
                           if (status === "Delivering") {
                             await updateOrder(
                               "Completed",
+                              studentId,
                               "order_id",
                               order.order_id
                             ).then(() => {
                               setRefresh((prev) => prev + 1);
                             });
                           } else {
+                            console.log(order.order_id);
                             await updateOrder(
                               "Delivering",
+                              studentId,
                               "order_id",
                               order.order_id
                             ).then(() => {
