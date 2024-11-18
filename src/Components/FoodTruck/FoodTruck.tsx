@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface FoodTruckProps {
@@ -20,10 +20,6 @@ const FoodTruck: React.FC<FoodTruckProps> = ({
     );
   };
 
-  useEffect(() => {
-    console.log("category_type: ", category_type);
-  }, [category_type]);
-
   const [zoomImage, setZoomImage] = useState("");
 
   return (
@@ -37,7 +33,7 @@ const FoodTruck: React.FC<FoodTruckProps> = ({
       >
         <img
           src={`/img/${category_type
-            .replace(/ /g, "-")
+            .replace(/ /g, "_")
             .toLowerCase()}/${category_name
             .replace(/ /g, "_")
             .toLowerCase()}.jpg`}

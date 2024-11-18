@@ -109,7 +109,7 @@ const FoodTruckMenu: React.FC<FoodTruckMenuProps> = ({
                 style={{ width: "250px", height: "300px" }}
               >
                 <img
-                  src={`/img/red-brick-area/${item.item_name
+                  src={`/img/menu/${item.item_name
                     .replace(/ /g, "_")
                     .toLowerCase()}.jpg`}
                   alt={item.item_name}

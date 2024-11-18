@@ -72,7 +72,6 @@ const RedBrickArea: React.FC<RedBrickAreaProps> = ({
 
       <div className="mt-8 space-y-1">
         {itemCategory.map((truck) => {
-          console.log(truck.category_type);
           return (
             <FoodTruck
               key={truck.category_id}
